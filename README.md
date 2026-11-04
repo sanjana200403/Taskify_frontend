@@ -46,7 +46,7 @@ npm install
 Copy `.env.example` to `.env.local`:
 
 ```env
-VITE_API_BASE_URL=http://localhost:5000/api
+VITE_API_BASE_URL=https://task-manager-api-u7st.onrender.com/api
 ```
 
 `VITE_API_BASE_URL` is included in the browser bundle, so it must never contain database credentials, JWT secrets, or other private values.
@@ -87,80 +87,6 @@ The Vite development server also proxies relative `/api` requests to `http://loc
 
 The included `vercel.json` rewrites browser requests to `index.html`, allowing direct visits and refreshes on client-side routes such as `/login`, `/register`, and `/app`.
 
-## Deploy to Vercel
-
-### 1. Deploy the backend first
-
-Confirm the deployed API health endpoint works:
-
-```text
-https://your-render-service.onrender.com/api/health
-```
-
-### 2. Import the frontend repository
-
-1. Push this frontend directory to its own GitHub repository.
-2. In Vercel, select **Add New**, then **Project**.
-3. Import the frontend repository.
-4. Vercel should detect the framework as **Vite**.
-
-Use these build settings if Vercel does not detect them automatically:
-
-| Setting | Value |
-| --- | --- |
-| Framework preset | `Vite` |
-| Root directory | Repository root |
-| Install command | `npm install` |
-| Build command | `npm run build` |
-| Output directory | `dist` |
-
-### 3. Add the API environment variable
-
-In **Project Settings**, open **Environment Variables**, then add:
-
-```env
-VITE_API_BASE_URL=https://your-render-service.onrender.com/api
-```
-
-Apply it to Production and Preview as needed. Vite reads this variable at build time, so redeploy after changing it.
-
-### 4. Allow the Vercel origin in the backend
-
-After Vercel assigns the production URL, update the backend's Render environment:
-
-```env
-CLIENT_URL=https://your-project.vercel.app
-```
-
-Use only the origin: include `https://`, but do not include `/api`, another path, or a trailing slash. Multiple allowed origins can be comma-separated:
-
-```env
-CLIENT_URL=http://localhost:5173,https://your-project.vercel.app
-```
-
-Save the Render environment change and let the backend redeploy.
-
-### 5. Verify production
-
-1. Open the Vercel production URL.
-2. Refresh `/login`, `/register`, and `/app` to confirm SPA rewrites.
-3. Register or log in.
-4. Create, update, search, and delete a task.
-5. Refresh the browser and confirm the session is restored.
-
-## Deployment relationship
-
-```text
-Vercel frontend
-  VITE_API_BASE_URL -> Render API /api
-
-Render backend
-  CLIENT_URL -> exact Vercel origin
-  MONGO_URI  -> MongoDB Atlas
-```
-
-The frontend sends authenticated API requests with credentials enabled. The backend must therefore allow the exact frontend origin and must remain available over HTTPS.
-
 ## Project structure
 
 ```text
@@ -184,8 +110,7 @@ frontend/
 
 ## Troubleshooting
 
-- **Vercel route returns 404:** confirm `vercel.json` is at the repository root and redeploy.
-- **CORS error:** set Render's `CLIENT_URL` to the exact Vercel production origin.
-- **API requests use the wrong server:** update `VITE_API_BASE_URL` in Vercel and redeploy.
+- **CORS error:** confirm the API allows the frontend origin.
+- **API requests use the wrong server:** verify `VITE_API_BASE_URL` in the local environment.
 - **Login does not persist:** confirm both sites use HTTPS and the frontend is sending credentials.
 - **Backend responds slowly after inactivity:** the first request can take longer when a free backend instance resumes.
