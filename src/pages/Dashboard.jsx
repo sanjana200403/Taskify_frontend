@@ -36,7 +36,7 @@ const initialFilters = {
   status: "",
   priority: "",
   time: "all",
-  sort: "dueAsc",
+  sort: "activeNewest",
   page: 1,
 };
 
@@ -224,7 +224,7 @@ export default function Dashboard() {
         const response = await taskService.list({
           page: 1,
           limit: 100,
-          sort: "dueAsc",
+          sort: "activeNewest",
           ...getWeekFilter(overviewWeekStart),
         });
         if (overviewRequestId.current === requestId) setOverviewTasks(response.data);
@@ -266,13 +266,13 @@ export default function Dashboard() {
     }
     try {
       const query = weekQuery(summary);
-      const response = await taskService.list({ page: 1, sort: "dueAsc", ...query });
+      const response = await taskService.list({ page: 1, sort: "activeNewest", ...query });
       const remainingPages = Array.from(
         { length: Math.max((response.meta?.totalPages || 1) - 1, 0) },
         (_, index) => index + 2,
       );
       const remainingResponses = await Promise.all(
-        remainingPages.map((page) => taskService.list({ page, sort: "dueAsc", ...query })),
+        remainingPages.map((page) => taskService.list({ page, sort: "activeNewest", ...query })),
       );
       const allTasks = [response, ...remainingResponses].flatMap((page) => page.data);
       if (weekRequestId.current === requestId) setExpandedWeekTasks(allTasks);
@@ -429,7 +429,7 @@ export default function Dashboard() {
   };
 
   const hasFilters =
-    filters.q || filters.status || filters.priority || filters.time !== "all" || filters.sort !== "dueAsc";
+    filters.q || filters.status || filters.priority || filters.time !== "all" || filters.sort !== "activeNewest";
   const visibleWeekAnalytics = useMemo(() => {
     const status = overviewTasks.reduce(
       (counts, task) => {

@@ -9,7 +9,7 @@ describe("DesktopTasksView", () => {
     const onPageChange = vi.fn();
     render(
       <DesktopTasksView
-        filters={{ q: "plan", status: "Pending", priority: "", time: "all", sort: "dueAsc", page: 2 }}
+        filters={{ q: "plan", status: "Pending", priority: "", time: "all", sort: "activeNewest", page: 2 }}
         hasFilters
         taskMeta={{ page: 2, total: 12, totalPages: 3 }}
         taskListProps={{ tasks: [], loading: false, error: "", onAdd: vi.fn() }}
@@ -21,6 +21,7 @@ describe("DesktopTasksView", () => {
 
     fireEvent.change(screen.getByPlaceholderText("Search title or description"), { target: { value: "review" } });
     expect(onFilterChange).toHaveBeenCalledWith("q", "review");
+    expect(screen.getByRole("option", { name: "Open first, newest" }).selected).toBe(true);
     fireEvent.click(screen.getByRole("button", { name: "Clear all" }));
     expect(onClearFilters).toHaveBeenCalledTimes(1);
     fireEvent.click(screen.getByRole("button", { name: /Next/ }));

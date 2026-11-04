@@ -77,6 +77,7 @@ export default function DesktopTasksView({
           <label>
             <span>Sort by</span>
             <select value={filters.sort} onChange={(event) => onFilterChange("sort", event.target.value)}>
+              <option value="activeNewest">Open first, newest</option>
               <option value="dueAsc">Due date: earliest</option>
               <option value="dueDesc">Due date: latest</option>
               <option value="newest">Recently created</option>
