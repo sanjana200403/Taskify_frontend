@@ -3,6 +3,7 @@ import { expect, test } from "@playwright/test";
 
 const demoEmail = process.env.DEMO_EMAIL;
 const demoPassword = process.env.DEMO_PASSWORD;
+const demoName = process.env.DEMO_NAME || "Demo Reviewer";
 const hasDemoCredentials = Boolean(demoEmail && demoPassword);
 
 test.describe("production demo account", () => {
@@ -73,7 +74,7 @@ test.describe("production demo account", () => {
   test("loads the seeded overview on desktop and mobile", async ({ page }, testInfo) => {
     await login(page);
 
-    await expect(page.getByText("Demo Reviewer", { exact: true })).toBeAttached();
+    await expect(page.getByText(demoName, { exact: true })).toBeAttached();
     await expect(page.getByText("Test mobile navigation", { exact: true }).first()).toBeVisible();
     await expect(page.getByText("Review dashboard experience", { exact: true }).first()).toBeVisible();
     await expectNoSeriousAccessibilityViolations(page, "Overview");
@@ -200,7 +201,7 @@ test.describe("production demo account", () => {
 
     await page.getByRole("button", { name: "Open sidebar" }).click();
     await expect(page.getByRole("complementary", { name: "Workspace sidebar" })).toBeVisible();
-    await expect(page.getByText("Demo Reviewer", { exact: true })).toBeVisible();
+    await expect(page.getByText(demoName, { exact: true })).toBeVisible();
     await expect(page.getByText(demoEmail, { exact: true })).toBeVisible();
     await expectNoSeriousAccessibilityViolations(page, "Mobile navigation drawer");
     await page.keyboard.press("Escape");
