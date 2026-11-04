@@ -1092,13 +1092,17 @@
 @media (max-width: 639px) {
   .task-modal-panel,
   .task-details-panel {
+    width: calc(100% - 1rem);
     max-height: 90dvh;
+    margin: 0 0.5rem max(0.5rem, env(safe-area-inset-bottom));
     padding: 1rem 1rem max(1.15rem, env(safe-area-inset-bottom));
-    border-radius: 1rem 1rem 0 0;
+    border-radius: 1.1rem;
+    overscroll-behavior: contain;
   }
 
   .task-modal-handle,
   .task-details-panel > div:first-child {
+    display: block;
     margin-bottom: 0.85rem;
   }
 
