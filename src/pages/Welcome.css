@@ -173,8 +173,8 @@
     max-width: 19rem;
     margin-top: 0.75rem;
     font-size: 0.75rem;
-    line-height: 1.6;
-    letter-spacing: -0.005em;
+    line-height: 1;
+    letter-spacing: 0;
   }
 
   .onboarding-cta {
