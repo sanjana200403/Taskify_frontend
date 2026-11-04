@@ -324,7 +324,7 @@ describe("MobileTaskApp responsive controls", () => {
       taskMeta: { page: 2, total: 24, totalPages: 3 },
     });
 
-    fireEvent.click(screen.getByRole("button", { name: "Clear all task filters" }));
+    fireEvent.click(screen.getByRole("button", { name: /Clear filters/ }));
     fireEvent.click(screen.getByRole("button", { name: "Previous" }));
     fireEvent.click(screen.getByRole("button", { name: "Next" }));
 

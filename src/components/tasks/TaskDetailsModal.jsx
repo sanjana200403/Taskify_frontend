@@ -5,9 +5,9 @@ import { formatTaskDate } from "../../utils/date.js";
 import Button from "../common/Button.jsx";
 
 const priorityTone = {
-  High: "bg-rose-50 text-rose-700",
-  Medium: "bg-amber-50 text-amber-700",
-  Low: "bg-emerald-50 text-emerald-700",
+  High: "bg-rose-50 text-rose-800",
+  Medium: "bg-amber-50 text-amber-800",
+  Low: "bg-emerald-50 text-emerald-800",
 };
 
 const statusTone = {
@@ -39,7 +39,7 @@ export default function TaskDetailsModal({ task, onClose, onEdit }) {
         <div className="mx-auto mb-5 h-1 w-10 rounded-full bg-slate-200 sm:hidden" />
         <header className="task-dialog-header flex items-start justify-between gap-5">
           <div className="min-w-0">
-            <p className="task-dialog-eyebrow text-[10px] font-semibold uppercase tracking-[0.18em] text-brand-600">
+            <p className="task-dialog-eyebrow text-[10px] font-semibold uppercase tracking-[0.18em] text-brand-700">
               Task details
             </p>
             <h2
@@ -84,7 +84,7 @@ export default function TaskDetailsModal({ task, onClose, onEdit }) {
             <CalendarDays size={17} />
           </span>
           <div>
-            <span className="task-details-label block text-[10px] font-medium uppercase tracking-[0.12em] text-slate-400">
+            <span className="task-details-label block text-[10px] font-medium uppercase tracking-[0.12em] text-slate-600">
               Scheduled for
             </span>
             <strong className="task-details-value mt-1 block text-sm font-medium text-slate-800">

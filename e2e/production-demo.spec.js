@@ -82,8 +82,9 @@ test.describe("production demo account", () => {
 
     const search = page.getByRole("searchbox", { name: "Search tasks" });
     await search.fill("walkthrough");
-    await expect(page.getByText("Prepare project walkthrough", { exact: true })).toBeVisible();
-    await page.getByRole("button", { name: "View Prepare project walkthrough" }).click();
+    const viewResult = page.getByRole("button", { name: "View Prepare project walkthrough" });
+    await expect(viewResult).toBeVisible();
+    await viewResult.click();
 
     const details = page.getByRole("dialog", { name: "Prepare project walkthrough" });
     await expect(details).toBeVisible();

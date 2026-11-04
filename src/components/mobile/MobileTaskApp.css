@@ -615,7 +615,7 @@
 
   .mobile-priority-chip--medium {
     background: #fff7df;
-    color: #b7790b;
+    color: #8a5600;
   }
 
   .mobile-priority-chip--low {
@@ -626,7 +626,7 @@
   .mobile-status-chip {
     padding: 0.22rem 0.38rem;
     background: #f1f3f8;
-    color: #697386;
+    color: #596579;
   }
 
   .mobile-status-control {
@@ -1596,7 +1596,7 @@
 
 .task-manager-title > span,
 .task-results-heading > div > span {
-  color: #4865f5;
+  color: #3548b8;
   font-size: 0.68rem;
   font-weight: 600;
   letter-spacing: 0.1em;
@@ -1619,7 +1619,7 @@
 
 .task-manager-title p {
   margin-top: 0.2rem;
-  color: #7b8496;
+  color: #667085;
   font-size: 0.75rem;
 }
 
@@ -1707,7 +1707,7 @@
 }
 
 .task-filter-card__title small {
-  color: #929aab;
+  color: #667085;
   font-size: 0.65rem;
 }
 
@@ -1881,7 +1881,7 @@
 
 .task-results-heading p {
   margin: 0;
-  color: #8b94a5;
+  color: #667085;
   font-size: 0.65rem;
   text-align: right;
 }

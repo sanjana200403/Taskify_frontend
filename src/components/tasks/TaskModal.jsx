@@ -25,7 +25,7 @@ export default function TaskModal({ open, task, defaultDate, onClose, onSubmit, 
         <div className="task-modal-handle mx-auto mb-5 h-1 w-10 rounded-full bg-slate-200 sm:hidden" />
         <div className="task-dialog-header mb-7 flex items-center justify-between">
           <div>
-            <p className="task-dialog-eyebrow text-[10px] font-semibold uppercase tracking-[0.18em] text-brand-600">
+            <p className="task-dialog-eyebrow text-[10px] font-semibold uppercase tracking-[0.18em] text-brand-700">
               {task ? "Update plan" : "Plan your week"}
             </p>
             <h2 id="task-modal-title" className="task-dialog-title mt-1 text-xl font-semibold text-slate-950">

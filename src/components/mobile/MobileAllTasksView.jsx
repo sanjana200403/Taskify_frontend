@@ -55,7 +55,7 @@ export default function MobileAllTasksView({
                 className="task-filter-clear"
                 type="button"
                 onClick={onClearTaskFilters}
-                aria-label="Clear all task filters"
+                aria-label={`Clear filters (${activeTaskFilterCount} active)`}
                 title={`Clear ${activeTaskFilterCount} active ${activeTaskFilterCount === 1 ? "filter" : "filters"}`}
               >
                 <X size={12} aria-hidden="true" />
