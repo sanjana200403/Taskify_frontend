@@ -40,12 +40,20 @@ test.describe("production demo account", () => {
   }
 
   async function expectNoSeriousAccessibilityViolations(page, context) {
+    await page.evaluate(async () => {
+      const finiteAnimations = document.getAnimations().filter((animation) => {
+        const timing = animation.effect?.getComputedTiming();
+        return timing && Number.isFinite(timing.endTime) && timing.endTime <= 2_000;
+      });
+      await Promise.all(finiteAnimations.map((animation) => animation.finished.catch(() => undefined)));
+    });
     const results = await new AxeBuilder({ page }).withTags(["wcag2a", "wcag2aa", "wcag21a", "wcag21aa"]).analyze();
     const severeViolations = results.violations.filter(({ impact }) => impact === "serious" || impact === "critical");
     const summary = severeViolations.map(({ id, impact, nodes }) => ({
       id,
       impact,
       targets: nodes.map(({ target }) => target.join(" ")),
+      failures: nodes.flatMap(({ any }) => any.map(({ message }) => message)),
     }));
     expect(summary, `${context} has serious or critical accessibility violations`).toEqual([]);
   }
@@ -105,22 +113,25 @@ test.describe("production demo account", () => {
     await login(page);
     await openCreateTask(page);
 
-    await page.getByLabel("Task title").fill(originalTitle);
-    await page.getByLabel("Date").fill("2026-11-04");
-    await page.getByLabel("Time").fill("18:30");
-    await page.getByLabel("Priority").selectOption("High");
-    await page.getByLabel("Status").selectOption("Pending");
-    await page.getByLabel("Description").fill("Temporary task created by the production browser check.");
-    await page.getByRole("button", { name: "Create task" }).click();
-    await expect(page.getByRole("dialog", { name: "Add new task" })).toBeHidden();
+    const createDialog = page.getByRole("dialog", { name: "Add new task" });
+    await createDialog.getByLabel("Task title", { exact: true }).fill(originalTitle);
+    await createDialog.getByLabel("Date", { exact: true }).fill("2026-11-04");
+    await createDialog.getByLabel("Time", { exact: true }).fill("18:30");
+    await createDialog.getByLabel("Priority", { exact: true }).selectOption("High");
+    await createDialog.getByLabel("Status", { exact: true }).selectOption("Pending");
+    await createDialog
+      .getByLabel("Description", { exact: true })
+      .fill("Temporary task created by the production browser check.");
+    await createDialog.getByRole("button", { name: "Create task" }).click();
+    await expect(createDialog).toBeHidden();
     await expect(page.getByText("Your new task was created successfully.")).toBeVisible();
 
     await openAllTasks(page);
     const search = page.getByRole("searchbox", { name: "Search tasks" });
     await search.fill(originalTitle);
-    await expect(page.getByText(originalTitle, { exact: true })).toBeVisible();
-
-    await page.getByRole("button", { name: `Edit ${originalTitle}` }).click();
+    const editResult = page.getByRole("button", { name: `Edit ${originalTitle}` });
+    await expect(editResult).toBeVisible();
+    await editResult.click();
     const editDialog = page.getByRole("dialog", { name: "Edit task" });
     await expect(editDialog).toBeVisible();
     await editDialog.getByLabel("Task title").fill(editedTitle);
@@ -130,9 +141,10 @@ test.describe("production demo account", () => {
     await expect(page.getByText("Your task was updated successfully.")).toBeVisible();
 
     await search.fill(editedTitle);
-    await expect(page.getByText(editedTitle, { exact: true })).toBeVisible();
-    await page.getByRole("combobox", { name: `Update status for ${editedTitle}` }).selectOption("Completed");
-    await expect(page.getByRole("combobox", { name: `Update status for ${editedTitle}` })).toHaveValue("Completed");
+    const statusControl = page.getByRole("combobox", { name: `Update status for ${editedTitle}` });
+    await expect(statusControl).toBeVisible();
+    await statusControl.selectOption("Completed");
+    await expect(statusControl).toHaveValue("Completed");
     await expect(page.getByText("Task marked as completed.")).toBeVisible();
 
     await testInfo.attach("completed-temporary-task", {
@@ -140,13 +152,46 @@ test.describe("production demo account", () => {
       contentType: "image/png",
     });
 
-    await page.getByRole("button", { name: `Delete ${editedTitle}`, exact: true }).click();
+    if (testInfo.project.name.includes("mobile")) {
+      const swipeShell = page.locator(".mobile-task-swipe-shell").filter({ hasText: editedTitle });
+      const row = swipeShell.locator(".mobile-task-row");
+      await row.evaluate((element) => {
+        const rect = element.getBoundingClientRect();
+        const pointerId = 7;
+        const startX = rect.right - 12;
+        const y = rect.top + rect.height / 2;
+        const originalSetPointerCapture = element.setPointerCapture;
+        const originalReleasePointerCapture = element.releasePointerCapture;
+        element.setPointerCapture = () => undefined;
+        element.releasePointerCapture = () => undefined;
+        const dispatch = (type, clientX) =>
+          element.dispatchEvent(
+            new PointerEvent(type, {
+              bubbles: true,
+              cancelable: true,
+              clientX,
+              clientY: y,
+              pointerId,
+              pointerType: "touch",
+            }),
+          );
+        dispatch("pointerdown", startX);
+        dispatch("pointermove", startX - 120);
+        dispatch("pointerup", startX - 120);
+        element.setPointerCapture = originalSetPointerCapture;
+        element.releasePointerCapture = originalReleasePointerCapture;
+      });
+      await expect(swipeShell).toHaveClass(/is-swipe-open/);
+      await page.getByRole("button", { name: `Delete ${editedTitle} after swipe` }).click();
+    } else {
+      await page.getByRole("button", { name: `Delete ${editedTitle}`, exact: true }).click();
+    }
     const confirmation = page.getByRole("dialog", { name: "Delete this task?" });
     await expect(confirmation).toBeVisible();
     await confirmation.getByRole("button", { name: "Delete", exact: true }).click();
     await expect(confirmation).toBeHidden();
     await expect(page.getByText("The task was deleted successfully.")).toBeVisible();
-    await expect(page.getByText(editedTitle, { exact: true })).toHaveCount(0);
+    await expect(page.getByRole("button", { name: `Edit ${editedTitle}` })).toHaveCount(0);
   });
 
   test("opens the mobile navigation drawer and shows profile data", async ({ page }, testInfo) => {
