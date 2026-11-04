@@ -13,7 +13,7 @@ export default function WeeklyCard({ summary, expanded, onClick, children }) {
             <p className="text-sm font-semibold tracking-tight text-slate-900">
               {formatWeekRange(summary.weekStart, summary.weekEnd)}
             </p>
-            <p className="mt-1.5 text-[10px] text-slate-400">
+            <p className="mt-1.5 text-[10px] text-slate-500">
               {summary.totalTasks} {summary.totalTasks === 1 ? "task" : "tasks"} scheduled
             </p>
           </div>
