@@ -66,8 +66,8 @@ test.describe("production demo account", () => {
     await login(page);
 
     await expect(page.getByText("Demo Reviewer", { exact: true })).toBeAttached();
-    await expect(page.getByText("Test mobile navigation", { exact: true })).toBeVisible();
-    await expect(page.getByText("Review dashboard experience", { exact: true })).toBeVisible();
+    await expect(page.getByText("Test mobile navigation", { exact: true }).first()).toBeVisible();
+    await expect(page.getByText("Review dashboard experience", { exact: true }).first()).toBeVisible();
     await expectNoSeriousAccessibilityViolations(page, "Overview");
 
     await testInfo.attach("overview", {

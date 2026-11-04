@@ -247,11 +247,14 @@ export default function MobileTaskApp({
                 className={day.key === selectedDate ? "is-selected" : ""}
                 key={day.key}
                 onClick={() => selectDate(day.key)}
-                aria-label={`${day.weekday} ${day.day}. Show tasks for ${day.label}, ${taskCount ? `${taskCount} ${taskCount === 1 ? "task" : "tasks"}` : "no tasks"}`}
                 aria-pressed={day.key === selectedDate}
               >
                 <span>{day.weekday}</span>
                 <strong>{day.day}</strong>
+                <span className="sr-only">
+                  Show tasks for {day.label},{" "}
+                  {taskCount ? `${taskCount} ${taskCount === 1 ? "task" : "tasks"}` : "no tasks"}
+                </span>
                 <i className={`mobile-week-task-dot ${taskCount ? "has-tasks" : ""}`} aria-hidden="true" />
               </button>
             );

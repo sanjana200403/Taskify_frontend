@@ -564,7 +564,7 @@
   }
 
   .mobile-task-copy strong.is-complete {
-    color: #778093;
+    color: #596579;
     text-decoration: line-through;
   }
 
@@ -668,7 +668,7 @@
 
   .mobile-status-chip--in-progress {
     background: #eef1ff;
-    color: #4865f5;
+    color: #3548b8;
   }
 
   .mobile-status-chip--completed {
