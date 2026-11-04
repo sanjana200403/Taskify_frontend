@@ -133,7 +133,7 @@ describe("MobileTaskApp responsive controls", () => {
     });
 
     expect(screen.queryByText("Selected day task")).not.toBeInTheDocument();
-    const taskDateButton = screen.getByRole("button", { name: `Show tasks for ${label}, 1 task` });
+    const taskDateButton = screen.getByRole("button", { name: new RegExp(`Show tasks for ${label}, 1 task$`) });
     expect(taskDateButton.querySelector(".mobile-week-task-dot")).toHaveClass("has-tasks");
     fireEvent.click(taskDateButton);
     expect(screen.getByText("Selected day task")).toBeInTheDocument();

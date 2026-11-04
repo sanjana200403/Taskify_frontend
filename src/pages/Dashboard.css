@@ -88,7 +88,7 @@
 
 .dashboard-brand small {
   margin-top: 0.15rem;
-  color: #7c879b;
+  color: #64748b;
   font-size: 0.64rem;
 }
 
@@ -126,7 +126,7 @@
 .dashboard-nav-label {
   margin: 2rem 0 0.6rem;
   padding: 0 0.75rem;
-  color: #929bad;
+  color: #64748b;
   font-size: 0.62rem;
   font-weight: 600;
   letter-spacing: 0.16em;
@@ -215,7 +215,7 @@
 
 .dashboard-sidebar-note span {
   margin-top: 0.18rem;
-  color: #7f899c;
+  color: #667085;
   font-size: 0.6rem;
 }
 
@@ -268,7 +268,7 @@
 
 .dashboard-user-card small {
   margin-top: 0.18rem;
-  color: #8791a4;
+  color: #64748b;
   font-size: 0.56rem;
 }
 

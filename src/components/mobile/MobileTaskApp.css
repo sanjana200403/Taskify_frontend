@@ -151,7 +151,7 @@
     border: 0;
     border-radius: 0.15rem;
     background: transparent;
-    color: #a8afbc;
+    color: #64748b;
     cursor: pointer;
   }
 
@@ -161,7 +161,7 @@
   }
 
   .mobile-week-strip strong {
-    color: #7f8797;
+    color: #64748b;
     font-size: 0.65rem;
     font-weight: 500;
   }
@@ -246,7 +246,7 @@
   }
 
   .mobile-summary > small {
-    color: #8d95a4;
+    color: #596579;
     font-size: 0.48rem;
   }
 
@@ -356,7 +356,7 @@
 
   .mobile-weeks-heading p {
     margin: 0.25rem 0 0;
-    color: #8d95a4;
+    color: #64748b;
     font-size: 0.53rem;
   }
 
@@ -572,7 +572,7 @@
     display: -webkit-box;
     margin: 0;
     overflow: hidden;
-    color: #6f7889;
+    color: #667085;
     font-size: 0.48rem;
     line-height: 1.5;
     -webkit-box-orient: vertical;
@@ -581,7 +581,7 @@
 
   .mobile-task-meta {
     gap: 0.45rem;
-    color: #a0a7b5;
+    color: #667085;
     font-size: 0.48rem;
   }
 
@@ -610,7 +610,7 @@
 
   .mobile-priority-chip--high {
     background: #fff0f1;
-    color: #d94c59;
+    color: #b42332;
   }
 
   .mobile-priority-chip--medium {
@@ -736,7 +736,7 @@
     padding: 0.2rem 0.42rem;
     border-radius: 999px;
     background: #f0f2f7;
-    color: #778093;
+    color: #596579;
     font-size: 0.65rem;
     font-weight: 600;
   }
